@@ -23,7 +23,7 @@ class mysql {
     private $UserName = 'root';
 
     /* 连接密码 */
-    private $Password = 'asd123321';
+    private $Password = '';
 
     /* 数据库编码 */
     private $dbCharSet = 'utf8';
