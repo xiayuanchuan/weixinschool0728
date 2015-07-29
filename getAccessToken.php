@@ -1,7 +1,6 @@
 <?php
 
-define("APPID", "wx52ccadef50ddd909");
-define("SECRET", "e42a84503fea938d98fdc03138ce5f33");
+
 $filename = "./accessToken_value.txt";
 if (file_exists($filename)) {
     $access_token_json = file_get_contents($filename);
