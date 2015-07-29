@@ -37,7 +37,7 @@ function getAccessToken($wei_id = 1) {
     }
 }
 
-function getAccessTokenByUrl() {// php kaiqi openssl扩展
+function getAccessTokenByUrl() { // php kaiqi openssl扩展
     $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type="
             . "client_credential&appid=" . APPID . "&secret=" . APPSECRET;
     $accessTokenArr = json_decode(file_get_contents($url), true);
