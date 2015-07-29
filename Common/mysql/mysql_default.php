@@ -23,7 +23,7 @@ class mysql {
     private $UserName = 'root';
 
     /* 连接密码 */
-    private $Password = '';
+    private $Password = 'asd123321';
 
     /* 数据库编码 */
     private $dbCharSet = 'utf8';
@@ -123,6 +123,23 @@ class mysql {
         }
     }
 
+    /****
+     *select function 
+     * @return  关联数组 
+     * 
+     * 
+     */
+    public function select($sql=""){
+        if(!$sql){
+            return false;
+        }
+        $res=  $this->execute($sql);
+        if(!$res){
+            return false;
+        }
+        return $this->fetch_assoc($res);
+    }
+    
     /**
       +----------------------------------------------------------
      * 获取记录集的行数
