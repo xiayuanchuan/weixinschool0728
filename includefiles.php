@@ -6,4 +6,3 @@ define("APP_PATH", "");
 include './Common/config/config.php';
 include './Common/mysql/mysql.php';
 include './Common/functions/functions.php';
-echo getAccessToken(1);
