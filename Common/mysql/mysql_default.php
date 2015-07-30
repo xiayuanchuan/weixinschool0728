@@ -17,7 +17,7 @@ class mysql {
     private $Host = 'localhost';
 
     /* 数据库名称 */
-    private $dbName = 'weixin_school0728';
+    private $dbName = 'weixin_school';
 
     /* 用户名 */
     private $UserName = 'root';

@@ -15,8 +15,7 @@ function getAccessToken($wei_id = 1) {
     $mydb = new mysql();
     $sql = "select * from weixin_access_token where delated=0 and wei_id=" . $wei_id;
     $accessTokenArr = $mydb->select($sql);
-
-    if (time() - $accessTokenArr[0]["created"] > 7000 || empty($accessTokenArr[0]['access_token'])) {
+    if (empty($accessTokenArr) || time() - $accessTokenArr[0]["created"] > 7000 || empty($accessTokenArr[0]['access_token'])) {
         //重新获取token  并存数据库
         $accessTokenArr = getAccessTokenByUrl();
         if (isset($accessTokenArr['access_token'])) {

@@ -29,7 +29,6 @@ class wechatCallbackapiTest {
     }
 
     public function responseMsg() {
-        $_SESSION['content'] = $fromUsername;
         //get post data, May be due to the different environments
         $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
 
@@ -42,11 +41,13 @@ class wechatCallbackapiTest {
               the best way is to check the validity of xml by yourself */
             libxml_disable_entity_loader(true);
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-            $fromUsername = $postObj->FromUserName;
-            $toUsername = $postObj->ToUserName;
-            $keyword = trim($postObj->Content);
-            $MsgType = trim($postObj->MsgType);
-            $time = time();
+            $wxData = array();
+
+            $wxData['fromUsername'] = $postObj->FromUserName;
+            $wxData['oUsername'] = $postObj->ToUserName;
+            $wxData['keyword'] = trim($postObj->Content);
+            $wxData['MsgType'] = trim($postObj->MsgType);
+            $wxData['time'] = time();
             $textTpl = "<xml>
 							<ToUserName><![CDATA[%s]]></ToUserName>
 							<FromUserName><![CDATA[%s]]></FromUserName>
@@ -55,11 +56,13 @@ class wechatCallbackapiTest {
 							<Content><![CDATA[%s]]></Content>
 							<FuncFlag>0</FuncFlag>
 							</xml>";
-            if (!empty($keyword)) {
+            if (!empty($wxData['keyword'])) {
                 //最好是用$MsgType来判断， f否则有可能无法处理用户的其他输入
-                if($keyword=="摇一摇"){
-                    //发送图文消息
-                    $textTpl = "<xml>
+
+                switch ($wxData['keyword']) {
+                    case "摇一摇":
+                        //发送图文消息
+                        $textTpl = "<xml>
                             <ToUserName><![CDATA[%s]]></ToUserName>
                             <FromUserName><![CDATA[%s]]></FromUserName>
                             <CreateTime>%s</CreateTime>
@@ -74,12 +77,22 @@ class wechatCallbackapiTest {
                             </item>
                             </Articles>
                             </xml> ";
-                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, "news", "摇一摇","拿起你的手机一起来摇一摇","http://mp.weixin.qq.com/wiki/static/assets/ac9be2eafdeb95d50b28fa7cd75bb499.png","http://www.baidu.com");
-                    echo $resultStr;
-                    exit;
+                        $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, "news", "摇一摇", "拿起你的手机一起来摇一摇", "http://mp.weixin.qq.com/wiki/static/assets/ac9be2eafdeb95d50b28fa7cd75bb499.png", "http://www.baidu.com");
+                        echo $resultStr;
+                        exit;
+                        break;
+                    case "投票":
+
+                        break;
+                    default:
+                        break;
                 }
-                $msgType = "text";
-                $contentStr = "Welcome to wechat world!您的输入类型为：" . $MsgType . $keyword . $_SESSION['content'] . "---" . $fromUsername;
+
+
+
+                $wxData['msgType'] = "text";
+                $contentStr = "Welcome to wechat world!您的输入类型为：" . $MsgType . $keyword . $_SESSION['content']
+                        . "---" . $fromUsername;
             } else {
                 $contentStr = "Welcome to wechat world!您的输入类型为：" . $MsgType . $keyword . $_SESSION['content'];
             }
@@ -117,4 +130,8 @@ class wechatCallbackapiTest {
 
 }
 
+//function 
+function sendMess(){
+    
+}
 ?>
